@@ -1,0 +1,64 @@
+
+ body{
+   font-family: Arial;
+   font-weight: ;
+   font-style: normal;
+   background-color: #B1D5B3;
+   font-size : 18px;
+   color:black;
+ }
+
+
+h4{
+  font-family: 'Marianne';
+   src:url('font/Marianne-Medium.otf');
+   font-weight: normal;
+   font-style: normal;
+  font-size: 22px;
+} 
+
+.navbar-default {
+    font-family: 'Marianne';
+   src:url('font/Marianne-Medium.otf');
+    background-color:#095D4D;
+}
+
+.navbar1 .navbar-default .navbar-brand{color:white;}
+
+.navbar1 .tab-panel{ background-color: #00b8bd; color: #00b8bd}
+
+.navbar1 .navbar-nav li a:hover, .navbar1 .navbar-nav > .active > a {
+color: white !important;
+background-color:#B1D5B3 !important;} 
+
+code .Error{
+   color:"red";
+}
+p .Errortext{
+   font-size: 20px;
+}
+html body div.container-fluid div.navbar1 div.container-fluid div.tab-content div#tab-1072-1.tab-pane.active div div#accueil_ui_1-tabintro.shiny-html-output.shiny-bound-output{ font-family: Arial;
+}
+
+
+#qfield_ui_1-downloadData {
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: 400;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	background-image: none;
+	border: 1px solid transparent;
+	padding: 6px 12px;
+	font-size: 18px;
+	line-height: 1.42857143;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
