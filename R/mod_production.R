@@ -16,7 +16,7 @@ mod_production_ui <- function(id){
     sidebarLayout(
       sidebarPanel(
         fileInput(inputId = ns("comp"), label = strong("Fichier Martelage"), multiple = F, placeholder = "", buttonLabel = "Parcourir"),
-        numericInput(inputId = ns("surface"), value = 1.5, label = "Surface en hectare", step = 0.1),
+        numericInput(inputId = ns("surface"), value = 1, label = "Surface en hectare", step = 0.1),
         numericInput(inputId = ns("duree"), value = 5, label = "Dur\u00e9e de rotation", step = 1),
         numericInput(inputId = ns("tarif"), value = 10, label = "Tarif Algan n° :", step = 1),
 
@@ -96,7 +96,7 @@ mod_production_server <- function(id, r){
       req(r$tab)
       df <- r$tab %>% mutate(cat = cut(as.numeric(dia2), breaks = c(17.5, 27.5, 42.5, 62.5, 2000), labels = c("PB", "BM", "GB", "TGB")))
       df <- df[!is.na(df$cat),]
-      ggplot(data = df, aes(x = cat, fill = as.factor(ess)))  + geom_bar(width = .5) + labs(x = "Classes de diamètre", y = "Nombre de tiges", fill = "Essence")+ ggtitle("Nombre de tiges par cat\u00e9gorie de diamètre") + scale_color_discrete(name = "Essence") 
+      ggplot(data = df, aes(x = cat, fill = as.factor(ess)))  + geom_bar(width = .5) + labs(x = "Classes de diam\u00e8tre", y = "Nombre de tiges", fill = "Essence")+ ggtitle("Nombre de tiges par cat\u00e9gorie de diam\u00e9tre") + scale_color_discrete(name = "Essence") 
       
     },bg ='#B1D5B3')
     
@@ -105,7 +105,7 @@ mod_production_server <- function(id, r){
       if(is.null(input$comp)){return()}
       df <- r$tab %>% mutate(g = (dia2/100)^2*pi/4/input$surface) %>% mutate(cat = cut(as.numeric(dia2), breaks = c(17.5, 27.5, 42.5, 62.5, 2000), labels = c("PB", "BM", "GB", "TGB")))
       df <- df[!is.na(df$cat),]
-      ggplot(data = df, aes(x = cat, y = g))  + geom_col(fill = '#7895A2', width = .5) + labs(x = "Classes de diamètre", y = "surface terrière")+ ggtitle("Surface terrière par cat\u00e9gorie de diamètre")
+      ggplot(data = df, aes(x = cat, y = g))  + geom_col(fill = '#7895A2', width = .5) + labs(x = "Classes de diam\u00e9tre", y = "surface terri\u00e9re")+ ggtitle("Surface terri\u00e9re par cat\u00e9gorie de diam\u00e9tre")
     },bg ='#B1D5B3')
   })
 }

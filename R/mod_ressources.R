@@ -56,7 +56,7 @@ mod_ressources_server <- function(id, r){
     }, deleteFile = FALSE)
     
     output$scheme <- renderImage({
-      filename <- normalizePath(file.path('inst/app/www/pictures/scheme.png'))
+      filename <- normalizePath(file.path('inst/app/www/pictures/scheme.jpg'))
       list(src = filename,
            width = 1050,
            height = 300)

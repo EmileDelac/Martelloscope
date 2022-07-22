@@ -2,6 +2,8 @@
 
 export(dia2cat)
 export(dia2cat5cm)
+export(dist.pond)
+export(keclaircie)
 export(perrotte)
 export(run_app)
 export(traitement_essence)

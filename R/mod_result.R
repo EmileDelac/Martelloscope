@@ -9,18 +9,18 @@ mod_result_ui <- function(id){
   tagList(
     sidebarLayout(
       sidebarPanel(
-        numericInput(inputId = ns("surface"), value = 1.5, label = "Surface en hectare", step = 0.1),
+        numericInput(inputId = ns("surface"), value = 1, label = "Surface en hectare", step = 0.1),
         numericInput(inputId = ns("duree"), value = 5, label = "Dur\u00e9e de rotation", step = 1),
-        numericInput(inputId = ns("tarif"), value = 10, label = "Tarif Algan n° :", step = 1),
+        numericInput(inputId = ns("tarif"), value = 10, label = "Tarif Algan n\u00b0 :", step = 1),
         hr(),
         h3('Donn\u00e9es optionnelles'),
         fileInput(ns("parcel"), label = "fichiers .shp de la parcelle", buttonLabel = "Parcourir", accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"), multiple=TRUE),
         fileInput(ns("houp"), label = "fichiers .shp des houppiers", buttonLabel = "Parcourir", accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"), multiple=TRUE),
         hr(),
-        numericInput(ns("quali_A"), label = 'Prix de la qualit\u00e9 A', value = 0),
-        numericInput(ns("quali_B"), label = 'Prix de la qualit\u00e9 B', value = 0),
-        numericInput(ns("quali_C"), label = 'Prix de la qualit\u00e9 C', value = 0),
-        numericInput(ns("quali_D"), label = 'Prix de la qualit\u00e9 D', value = 0)
+        numericInput(ns("quali_A"), label = 'Prix d\u0027un arbre de qualit\u00e9 A', value = 100),
+        numericInput(ns("quali_B"), label = 'Prix d\u0027un arbre de qualit\u00e9 B', value = 60),
+        numericInput(ns("quali_C"), label = 'Prix d\u0027un arbre de qualit\u00e9 C', value = 30),
+        numericInput(ns("quali_D"), label = 'Prix d\u0027un arbre de qualit\u00e9 D', value = 10)
       ),
       mainPanel(
         textOutput(ns("MDSpath")),
@@ -68,8 +68,8 @@ mod_result_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     output$MDSpath <- renderText(
-      HTML("Une fois les martelages effectu\u00e9s ils pourront être transf\u00e9r\u00e9s depuis le dossier 
-          t\u00e9l\u00e9chargement des MDS (fichier : .gpkg) vers l'ordinateur et renomm\u00e9s pour être ajout\u00e9s ci-dessous :" )
+      HTML("Une fois les martelages effectu\u00e9s ils pourront \u00eatre transf\u00e9r\u00e9s depuis le dossier 
+          t\u00e9l\u00e9chargement des MDS (fichier : .gpkg) vers l'ordinateur et renomm\u00e9s pour \u00eatre ajout\u00e9s ci-dessous :" )
     )
     
     #________________________________________________________  Prix  _____________________________________________________
@@ -98,11 +98,14 @@ mod_result_server <- function(id, r){
     
     output$nontitre <- downloadHandler(
       filename = function() {
-        paste("nontitre", ".html", sep = "")
+        paste(sub(x = input$nomart, ".gpkg", ""), ".html", sep = "")
       },
       content = function(file2) {
+        showModal(modalDialog("Chargement", footer=NULL, easyClose = TRUE, fade = TRUE))
         
         file.copy(rmarkdown::render(knit("R/nontitre.Rmd")),to = file2)
+        
+        on.exit(removeModal())
       },
     )
     #______________________________  Listing des arbres  ___________________________________

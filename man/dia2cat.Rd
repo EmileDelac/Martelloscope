@@ -3,16 +3,16 @@
 \encoding{UTF-8}
 \name{dia2cat}
 \alias{dia2cat}
-\title{Title diamètre vers cat\u00e9gories de diamètre}
+\title{Title diametre vers categorie de diametre}
 \usage{
 dia2cat(diam)
 }
 \arguments{
-\item{diam}{vecter de diametre}
+\item{diam}{vecteur de diametre}
 }
 \value{
-vecteurs des cat\u00e9gories
+vecteurs des categories
 }
 \description{
-Title diamètre vers cat\u00e9gories de diamètre
+Title diametre vers categorie de diametre
 }

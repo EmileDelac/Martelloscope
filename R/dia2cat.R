@@ -1,9 +1,9 @@
-#' Title diamètre vers cat\u00e9gories de diamètre
+#' Title diametre vers categorie de diametre
 #'
 #' @encoding UTF-8
-#' @param diam vecter de diametre
+#' @param diam vecteur de diametre
 #'
-#' @return vecteurs des cat\u00e9gories
+#' @return vecteurs des categories
 #' @export 
 #'
 dia2cat <- function(diam) {

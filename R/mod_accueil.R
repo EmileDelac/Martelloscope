@@ -11,7 +11,7 @@ mod_accueil_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    h4(align = "center", "Bienvenu sur cet outil d'aide à la mise en place d'un Marteloscope"),
+    h4(align = "center", "Bienvenu sur cet outil d'aide \u00e0 la mise en place d'un Marteloscope"),
     hr(),
     HTML("<p> <ul>Pour utiliser cet outil vous aurez besoin : 
                                 <li> de l'application <a href='https://play.google.com/store/apps/details?id=ch.opengis.qfield&hl=fr&gl=US'>Qfield</a> sur t\u00e9l\u00e9phone mobile ou tablette </li> 
@@ -20,7 +20,7 @@ mod_accueil_ui <- function(id){
     HTML("<p></p>
                       <p><ul>Ce fichier doit comporter (comme dans l'exemple ci-dessous) : 
                       <li>une colonne 'X' et 'Y' (en majuscule) pour la localisation</li>
-                      <li>une ou deux colonnes 'dia1' ; 'dia2'. pour le diamètre</li>
+                      <li>une ou deux colonnes 'dia2' = dernier diam\u00e8tre mesur\u00e9 ; 'dia1' diam\u00e8tre mesur\u00e9 il y a 'n' ann\u00e9es avec n = P\u00e9riode de rotation</li>
                       <li>une colonne 'ess' pour l'essence de chaque arbre</li></ul></p>"),
     
     div(tableOutput(ns("tabintro")), align="center"),
@@ -29,19 +29,19 @@ mod_accueil_ui <- function(id){
     HTML("<p></p>
                       <p><ul>Ce fichier peut aussi comporter : 
                       <li>une colonne 'dmh' (note sur 10) des dendro-micro habitats</li>
-                      <li>une colonnes 'qualite' ('A','B','C','D') </li></ul></p>"),
+                      <li>une colonne 'qualite' ('A','B','C','D') </li></ul></p>"),
     hr(),
     fluidRow(
-      column(3, align= "center",strong("Accroissement")),
+      column(3, align= "center",strong("Caract\u00e9risation")),
       column(3, align= "center",strong("Qfield")),
       column(3, align= "center",strong("R\u00e9sultats")),
       column(3, align= "center",strong("Ressources")),
     ),
     fluidRow(
-      column(3, align = "center","Cet onglet permet d'\u00e9tudier la dynamique du marteloscope dans le temps, en d\u00e9terminant le passage à la futaie et l'accroissement"),
-      column(3, align = "center","Cet onglet permet de cr\u00e9er le fichier terrain à transmettre aux participants"),
+      column(3, align = "center","Cet onglet permet d'\u00e9tudier la dynamique du marteloscope dans le temps, en d\u00e9terminant le passage \u00e0 la futaie et l'accroissement"),
+      column(3, align = "center","Cet onglet permet de cr\u00e9er le fichier terrain \u00e0 transmettre aux participants"),
       column(3, align = "center","Cet onglet permet de comparer les martelages des participants"),
-      column(3, align = "center","Cet onglet regroupe un lexique et des documents d'aide à la d\u00e9cision pour les participants"),
+      column(3, align = "center","Cet onglet regroupe un lexique et des documents d'aide \u00e0 la d\u00e9cision pour les participants"),
       
     ),
   )

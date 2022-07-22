@@ -2,7 +2,7 @@
 % Please edit documentation in R/perrotte.R
 \name{perrotte}
 \alias{perrotte}
-\title{formmule de perotte}
+\title{formule de perotte}
 \usage{
 perrotte(diam, tarif)
 }
@@ -15,5 +15,5 @@ perrotte(diam, tarif)
 vecteurs volume des arbres en m^3
 }
 \description{
-formmule de perotte
+formule de perotte
 }

@@ -15,7 +15,7 @@ app_ui <- function(request) {
                                         tabPanel("Accueil", icon = icon("home"),
                                                  mod_accueil_ui("accueil_ui_1")),
                                         
-                                        tabPanel("Accroissement", icon = icon("tree"),
+                                        tabPanel("Caract\u00e9risation", icon = icon("tree"),
                                                  mod_production_ui("production_ui_1")),
                                         
                                         tabPanel("Qfield", icon = icon("mountain"),
@@ -31,7 +31,9 @@ app_ui <- function(request) {
                                                  
                                                  h4("Messages d'erreur :"),
                                                  tags$code(class = "Error", "Error in gsub: input string 1 is invalid in this locale"),
-                                                 tags$p(class = "Errortext", "=> Retirer les Caractères Sp\u00e9ciaux dans le CSV")
+                                                 tags$p(class = "Errortext", "=> Retirer les Caractères Sp\u00e9ciaux dans le CSV"),
+                                                 br(),
+                                                 tags$p("Le fichier .shp des houppiers doit contenir une colonne 'num' correspondant à la colonne 'num' du fichier .csv"), 
                                         ),
       )
       )

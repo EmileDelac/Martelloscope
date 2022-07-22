@@ -7,14 +7,14 @@
 traitement_essence(tab, duree, surface)
 }
 \arguments{
-\item{tab}{fichier import\u00e9}
+\item{tab}{fichier importe}
 
 \item{duree}{duree de rotation}
 
 \item{surface}{surface de la parcelle}
 }
 \value{
-table des accroissement et des passage à la futaie par essence
+table des accroissement et des passage a la futaie par essence
 }
 \description{
 traitement essence

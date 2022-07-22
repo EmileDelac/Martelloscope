@@ -1,4 +1,4 @@
-#' formmule de perotte
+#' formule de perotte
 #'
 #' @param diam vecteur des diametres des arbres en mètre
 #' 

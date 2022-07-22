@@ -12,12 +12,12 @@ mod_qfield_ui <- function(id){
     sidebarLayout(
       sidebarPanel(
         fileInput(ns("file"),"Ajouter votre Fichier",buttonLabel="Parcourir", multiple = TRUE),
-        checkboxInput(inputId = ns('header'), label = 'En-tête', value = TRUE),
+        checkboxInput(inputId = ns('header'), label = 'En-t\u00eate', value = TRUE),
         checkboxInput(inputId = ns("stringAsFactors"), "stringAsFactors", FALSE),
-        radioButtons(inputId = ns('sep'), label = 'Séparateur', choices = c(Virgule=',',PointVirgule=';',Tabulation='\t', Espace=''), selected = ';'),
-        radioButtons(inputId = ns('dec'), label = 'Séparateur décimal', choices = c(Virgule=',',Point='.'), selected = ','),
+        radioButtons(inputId = ns('sep'), label = 'S\u00e9parateur', choices = c(Virgule=',',PointVirgule=';',Tabulation='\t', Espace=''), selected = ';'),
+        radioButtons(inputId = ns('dec'), label = 'S\u00e9parateur d\u00e9cimal', choices = c(Virgule=',',Point='.'), selected = ','),
         hr(),
-        downloadButton(outputId = ns("downloadData"), label = "Télécharger le fichier Qfield", color = '#FFE797', icon = icon("mountain")),
+        downloadButton(outputId = ns("downloadData"), label = "T\u00e9l\u00e9charger le fichier Qfield", color = '#FFE797', icon = icon("mountain")),
 
       ),
       mainPanel(
@@ -61,7 +61,7 @@ mod_qfield_server <- function(id, r){
       }
     )
 
-    ##Carte à partir du csv
+    ##Carte a partir du csv
     output$mymap <- renderPlot({
       if(is.null(input$file)){return()}
       df <- read.table(file = input$file$datapath,
@@ -77,7 +77,7 @@ mod_qfield_server <- function(id, r){
     
     ##Texte
     output$txtqf1 <- renderText({
-      HTML('Une fois votre fichier csv chargé vous êtes invité à le télécharger ci-contre en format Qgis')
+      HTML('Une fois votre fichier csv charg\u00e9 vous \u00eates invit\u00e9 \u00e0 le t\u00e9l\u00e9charger ci-contre en format Qgis')
     })
   })
 }
