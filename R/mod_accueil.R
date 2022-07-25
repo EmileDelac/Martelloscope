@@ -20,8 +20,12 @@ mod_accueil_ui <- function(id){
     HTML("<p></p>
                       <p><ul>Ce fichier doit comporter (comme dans l'exemple ci-dessous) : 
                       <li>une colonne 'X' et 'Y' (en majuscule) pour la localisation</li>
-                      <li>une ou deux colonnes 'dia2' = dernier diam\u00e8tre mesur\u00e9 ; 'dia1' diam\u00e8tre mesur\u00e9 il y a 'n' ann\u00e9es avec n = P\u00e9riode de rotation</li>
-                      <li>une colonne 'ess' pour l'essence de chaque arbre</li></ul></p>"),
+                      <li>une colonne 'ess' pour l'essence de chaque arbre</li>
+                      <li>une ou deux colonnes pour le diam\u00e8tre : dia1 ; dia2</li></ul></p>"),
+    actionButton(
+      inputId = ns( "success"),
+      label = "dia1 ; dia2 ?",
+    ),
     
     div(tableOutput(ns("tabintro")), align="center"),
     
@@ -63,6 +67,14 @@ mod_accueil_server <- function(id, r){
       colnames(dat) <- nom
       dat
     })
+    observeEvent(input$success, {
+      shinyalert::shinyalert(
+        title = "dia1 & dia2",
+        text = "'dia2' doit correspondre au dernier diam\u00e8tre mesur\u00e9 ;
+        'dia1' correspond au diam\u00e8tre mesur\u00e9 il y a 'n' ann\u00e9es avec n = Dur\u00e9e de rotation (onglet R\u00e9sultats)
+        Si vous ne disposez que d'une valeur de diam\u00e8tre, veuillez nommer la colonne 'dia2'",)
+    })
+    
   })
 }
 

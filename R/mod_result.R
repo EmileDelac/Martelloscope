@@ -10,7 +10,7 @@ mod_result_ui <- function(id){
     sidebarLayout(
       sidebarPanel(
         numericInput(inputId = ns("surface"), value = 1, label = "Surface en hectare", step = 0.1),
-        numericInput(inputId = ns("duree"), value = 5, label = "Dur\u00e9e de rotation", step = 1),
+        numericInput(inputId = ns("duree"), value = 5, label = "Dur\u00e9e de rotation (ann\u00e9es)", step = 1),
         numericInput(inputId = ns("tarif"), value = 10, label = "Tarif Algan n\u00b0 :", step = 1),
         hr(),
         h3('Donn\u00e9es optionnelles'),
@@ -154,7 +154,7 @@ mod_result_server <- function(id, r){
       content = function(file){
         showModal(modalDialog("Chargement", footer=NULL, easyClose = TRUE, fade = TRUE))
         report_path <- tempfile(fileext = ".Rmd")
-        file.copy("report.Rmd", report_path,  overwrite = TRUE)
+        file.copy("R/report.Rmd", report_path,  overwrite = TRUE)
         
         
         rmarkdown::render(report_path,

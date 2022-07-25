@@ -16,6 +16,9 @@ mod_production_ui <- function(id){
     sidebarLayout(
       sidebarPanel(
         fileInput(inputId = ns("comp"), label = strong("Fichier Martelage"), multiple = F, placeholder = "", buttonLabel = "Parcourir"),
+        radioButtons(inputId = ns('sep'), label = 'S\u00e9parateur', choices = c(Virgule=',',PointVirgule=';'), selected = ';'),
+        radioButtons(inputId = ns('dec'), label = 'S\u00e9parateur d\u00e9cimal', choices = c(Virgule=',',Point='.'), selected = ','),
+        hr(),
         numericInput(inputId = ns("surface"), value = 1, label = "Surface en hectare", step = 0.1),
         numericInput(inputId = ns("duree"), value = 5, label = "Dur\u00e9e de rotation", step = 1),
         numericInput(inputId = ns("tarif"), value = 10, label = "Tarif Algan n° :", step = 1),
@@ -47,7 +50,7 @@ mod_production_server <- function(id, r){
     ns <- session$ns
     observeEvent(input$comp, ignoreInit = F, {
       r$tab <- read.table(file = input$comp$datapath,
-                          dec = ",", sep = ";",
+                          dec =input$dec, sep = input$sep,
                           header = TRUE,
                           na.strings = c("","NA"),
                           stringsAsFactors = FALSE)
@@ -56,6 +59,9 @@ mod_production_server <- function(id, r){
     output$table <- renderTable({
       req(r$tab)
       df <- r$tab
+      validate(
+        need(df$dia2 != "", "V\u00e9rifier les s\u00e9parateurs et recharger le .csv")
+      )
       cutG <- dia2cat5cm(df$dia2)
       G <- aggregate(cutG$G~df$ess, FUN = sum)[,2]
       DF <- data.frame(cbind (table(df$ess,cutG$cut), Total = rowSums(table(df$ess,cutG$cut)), G))
@@ -78,6 +84,9 @@ mod_production_server <- function(id, r){
     output$tabNGV <- renderTable({
       req(r$tab)
       df <- r$tab
+      validate(
+        need(df$dia2 != "", "")
+      )
       df <- df[!(is.na(df$dia2) | df$dia2 == 0),]
       N <- length(df$dia2)/input$surface
       G <- sum(dia2cat5cm(df$dia2)$G)/input$surface
@@ -94,6 +103,10 @@ mod_production_server <- function(id, r){
     #Graphique Nombre de tige par classe de diamètre
     output$nbtigedia <- renderPlot({
       req(r$tab)
+      df <- r$tab
+      validate(
+        need(df$dia2 != "", "V\u00e9rifier les s\u00e9parateurs et recharger le .csv")
+      )
       df <- r$tab %>% mutate(cat = cut(as.numeric(dia2), breaks = c(17.5, 27.5, 42.5, 62.5, 2000), labels = c("PB", "BM", "GB", "TGB")))
       df <- df[!is.na(df$cat),]
       ggplot(data = df, aes(x = cat, fill = as.factor(ess)))  + geom_bar(width = .5) + labs(x = "Classes de diam\u00e8tre", y = "Nombre de tiges", fill = "Essence")+ ggtitle("Nombre de tiges par cat\u00e9gorie de diam\u00e9tre") + scale_color_discrete(name = "Essence") 
@@ -103,6 +116,10 @@ mod_production_server <- function(id, r){
     #Graphique surface terrière par classe de diamètre
     output$Gdia <- renderPlot({
       if(is.null(input$comp)){return()}
+      df <- r$tab
+      validate(
+        need(df$dia2 != "", "V\u00e9rifier les s\u00e9parateurs et recharger le .csv")
+      )
       df <- r$tab %>% mutate(g = (dia2/100)^2*pi/4/input$surface) %>% mutate(cat = cut(as.numeric(dia2), breaks = c(17.5, 27.5, 42.5, 62.5, 2000), labels = c("PB", "BM", "GB", "TGB")))
       df <- df[!is.na(df$cat),]
       ggplot(data = df, aes(x = cat, y = g))  + geom_col(fill = '#7895A2', width = .5) + labs(x = "Classes de diam\u00e9tre", y = "surface terri\u00e9re")+ ggtitle("Surface terri\u00e9re par cat\u00e9gorie de diam\u00e9tre")

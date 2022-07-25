@@ -1,0 +1,232 @@
+---
+title: "Marteloscope"
+output: html_document
+---
+
+
+```{r setup, include=FALSE, results = 'hide', message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+
+lst3 <- datagpkg()
+tab_prix <- tab_prix()
+duree <- input$duree
+
+dia1 <- !is.null(lst3$dia1)
+houp_loaded <- if(!is.null(input$parcel)){TRUE}else{FALSE}
+parc_loaded <- if(!is.null(input$houp)){TRUE}else{FALSE}
+col_dmh <- !is.null(lst3$dmh)
+col_quali <- !is.null(lst3$qualite)
+col_qualidia <- !is.null(lst3$qualite) & !is.null(lst3$dia2)
+particip <- levels(lst3$nom)
+```
+**Participants : `r particip`**
+
+
+```{r echo = FALSE, error = FALSE, message = FALSE, warning = FALSE}
+lst3 <- datagpkg()
+Gavant <- cbind(dia2cat5cm(lst3$dia2),nom = lst3$nom)
+
+restant <- lst3[is.na(lst3$mart),]
+Gapre <- cbind(dia2cat5cm(restant$dia2),nom = restant$nom) 
+
+Gavap <- dplyr::left_join(x = aggregate(G ~ cut + nom, Gavant, sum), y = aggregate(G ~ cut + nom, Gapre, sum), by = c("cut" = "cut", "nom" = "nom"))
+Gavap[is.na(Gavap)] <- 0
+
+ggplot(Gavap, aes(x = cut, group = 2)) + geom_area(aes(y = G.x, fill = "Avant")) + geom_area(aes(y = G.y, fill = "Après")) + facet_wrap(~nom) + labs(y = "Surface terrière", x = "classe de diamètre", fill = "") + theme(legend.position = "right") + scale_fill_manual(values=c('Avant'= "#61ed87" , 'Après' = "#29ba50" )) + scale_x_discrete(breaks = c(15,30,45,60,75,100))
+
+```
+
+Graphique de la surface terrière selon les classes de diamètres avant et après martelage
+
+---
+
+```{r raison, echo = FALSE, warning=FALSE , message=FALSE}
+ggplot(na.omit(lst3[!lst3$mart=="NA",]),aes(x = nom,fill = as.factor(mart))) + geom_bar() +
+  ggtitle("Nombre de tige prélevées par raison") + theme(axis.text.x = element_text(angle = 90)) + labs(y = "N", x = "Equipe", fill = "Raison")
+```
+
+Graphique du nombre de tiges martelées par raison de martelage, chaque couleur représente un motif de martelage.
+
+---
+
+```{r echo = FALSE, error=TRUE, message=FALSE}
+ggplot(na.omit(lst3[!lst3$mart=="NA",]), aes(x = nom,fill = as.factor(mart))) + 
+  facet_wrap(~ess) + geom_bar() +
+  ggtitle("Nombre de tige prélevées par raison et par essence") +
+  labs(y = "N", x = "Equipe", fill = "Raison") + theme(plot.title = element_text(size=11),axis.text.x = element_text(angle = 90))
+```
+
+
+Graphique du nombre de tiges martelées par raison de martelage et par essence.
+
+On pourra aborder ici la question du choix de l’essence ou des essences objectifs de la parcelle. On pourra discuter de l’avenir de telle ou telle essence dans la parcelle, de son rôle, est-elle éducatrice, compétitrice, productrice et est-elle adaptée au climat actuel et le sera-t-elle face au réchauffement climatique. On amènera les participants à s’interroger sur les potentialités actuelles et futures de la station forestière.
+
+
+
+---
+
+```{r echo = FALSE , error=TRUE, message=FALSE}
+separated_coord <- lst3 %>%
+    mutate(mart = !is.na(lst3$mart)) %>% 
+   mutate(lat = unlist(purrr::map(lst3$geom,1)),
+         long = unlist(purrr::map(lst3$geom,2)))
+ggplot(separated_coord, aes(x = long, y = lat, color = ess, shape = mart))  + facet_wrap(~nom) + geom_point(size = 1.5) +
+  theme(axis.text.x=element_blank(),axis.text.y=element_blank()) +
+  ggtitle("R\u00e9partition des tiges martel\u00e9es") + labs(x = "X", y = "Y", fill = "Essence", alpha ="Raison") + scale_color_discrete(name = "Essence")  + scale_shape_manual(name = "Martelé", values=c(16, 13))
+#+ geom_sf(data = fortify(map),aes(x=long,y=lat),colour="black",fill=NA,lwd=1)
+```
+
+Le martelage est-il en ilôts ? (trouées de lumière) en périphérie ? diffus ?
+On pourra s’interroger sur les questions d’équilibre sylvo-cygénétique et s’il faut-il travailler au profit de la régénération ? Sans protection et selon l’équilibre forêt-gibier la régénération est-elle viable ?
+
+---
+
+```{r echo = FALSE, error=FALSE, message=FALSE}
+ggplot(na.omit(lst3[!lst3$mart=="NA",]),aes(x = nom,fill = as.factor(ess))) + facet_wrap(~ess) + geom_bar() +
+  ggtitle("Nombre de tiges martelées par essence") +
+  labs(y = "N", x = "Equipe",fill="Essence") + theme(axis.text.x = element_text(angle = 90))
+```
+
+On pourra amener les participants à réfléchir au type de martelage effectué. Les arbres récoltés sont-ils majoritairement des PB et BM, on parle alors de martelage par le bas : on prélève en priorité dans les jeunes petits bois de manière à favoriser les sujets d’avenir et leur permettre une croissance optimum pour produire du bois de qualité. Ou le martelage a-t-il été effectué par le « haut » : on prélève en priorité les gros et très gros bois arrivés à leur dimension d’exploitabilité.
+
+---
+
+```{r echo = FALSE,eval= dia1, error = FALSE, message = FALSE, warning = FALSE}
+N <- abs(nrow(lst3)/nlevels(lst3$nom))
+pfacc <-  traitement_essence(lst3[1:N,],surface = input$surface, duree = duree)
+
+lst4 <- na.omit(lst3[!lst3$mart=="NA",])
+lst5 <- mutate(lst4,accprel = (as.numeric(lst4$dia2)/100)^2*pi/4)
+
+ggplot(data = lst5,aes(x = nom, y = accprel)) +  geom_bar(stat = "identity", fill = '#66CDAA') + facet_wrap(~ess) +
+  geom_hline(data = pfacc, aes(yintercept = acc, group = ess), col = "orange") +
+  geom_hline(data = pfacc, aes(yintercept = acc*duree, group = ess), col = "red") +
+  ggtitle("Prélèvement en G par essence") +
+  labs(y = "G (m²)", x = "Equipe") + theme( axis.text.x = element_text(angle = 90))
+```
+
+Le trait orange indique l'accroissement en m².ha annuel  
+Le trait rouge indique l'accroissement en m².ha sur `r duree` ans
+
+Une essence est-elle plus souvent martelée qu'une autre ? à relativiser selon la proportion de l'espèce dans le peuplement
+
+---
+```{r echo = FALSE, error=FALSE, message=FALSE, warning=FALSE}
+lst4 <- na.omit(lst3[!lst3$mart=="NA",]) 
+lst5 <- lst4 %>%  mutate(cat = cut(as.numeric(lst4$dia2), breaks = c(17.5, 27.5, 42.5, 62.5, 2000), labels = c("PB", "BM", "GB", "TGB"))) %>%
+  mutate(prop = rep(1/(dim(lst4)[1]),dim(lst4)[1]))
+
+ggplot(data = na.omit(lst5[!lst5$prop=="NA",]),aes(x = nom, y = prop, fill = cat)) +  geom_col(position = "fill") +  facet_wrap(~ess) +
+  ggtitle("Proportion d'arbres prélevés par catégorie de diamètre") + 
+  scale_fill_manual(values = c("#eeee00", "#bbbb00", "#777700","#444400")) +
+  labs(y = "Proportion", x = "Equipe", fill = "Catégorie") + theme( axis.text.x = element_text(angle = 90)) + theme(plot.title = element_text(size=11))
+```
+
+Graphique de la Proportion d'arbres prélevés par catégorie de diamètre
+Une essence est-elle plus souvent martelée selon son diamètre ?
+
+---
+```{r echo = FALSE, eval= dia1, error = FALSE, message = FALSE, warning = FALSE}
+liste3 <- datagpkg()
+N <- abs(nrow(liste3)/nlevels(liste3$nom))
+pfacc <-  traitement_essence(liste3[1:N,], surface = input$surface, duree = input$duree)
+liste3 <- bind_rows(liste3) %>% as.data.frame()
+liste3 <- na.omit(liste3[!liste3$mart=="NA",])
+liste3 <- mutate(liste3, acc = (as.numeric(liste3$dia2)/100)^2*pi/4)
+liste3 <- liste3 %>% group_by(nom,ess) %>% summarise(Nprel = n(), accprel = sum(acc))
+liste3 <- as.data.frame(liste3)
+liste4 <- do.call(expand.grid, lapply(liste3[c("ess","nom")], levels))
+liste5 <- merge(liste3, liste4, all.y=TRUE)
+liste5[is.na(liste5)] <- 0
+tabl <- dplyr::left_join(liste5,pfacc) %>% mutate(propf = Nprel*100/pf) %>% mutate(propacc = accprel*100/acc)
+tabl[tabl == Inf] <- 0
+tabl[tabl == "NaN"] <- 0
+
+
+ggplot(tabl, aes(x = propf, y = propacc , color = as.factor(ess) ), size = 4) + geom_point() + facet_wrap(~nom) +
+  geom_hline(yintercept = 100, col = "red") + 
+  geom_vline(xintercept = 100, col = "red") +
+  scale_x_continuous(trans = "log", breaks = c(0,50,100,200)) + 
+  scale_y_continuous(trans = "log", breaks = c(0,50,100,200)) + 
+  xlim(-1,501)+
+  ylim(-1,501)+
+  
+  xlab("VIEILLISSEMENT\ntaux de prélèvement du passage à la futaie (%)") +
+  ylab("taux de prélèvement de l'accroissement en G (%)\nDECAPITALISATION") +
+  labs(title = "Dynamique enclenchée", color = "Essence")
+```
+
+Ce graphique présente par essence et par équipe le taux de prélèvement de l’accroissement et du passage à la futaie. Si l’on prélève plus que l’accroissement naturel, on va avoir tendance à diminuer la quantité de bois dans le peuplement, on parle alors de décapitalisation, à l’inverse si l’on prélève mois que l’accroissement on aura tendance à recapitaliser. Concernant le passage à la futaie, si l’on prélève plus de tiges que le peuplement n’en génère on aura tendance à faire vieillir le peuplement.
+
+---
+```{r volume, message=FALSE, warning=FALSE, echo = FALSE}
+lst3 <- cbind(lst3, volu = perrotte(lst3$dia2, input$tarif))
+ggplot(na.omit(lst3[!lst3$mart=="NA",]), aes(x = nom, y = volu ))  + geom_col(fill = '#F37257',width = 0.5) +
+  ggtitle("Volume martelé par équipe") +
+  labs(y = "m^3", x = "Equipe")
+```
+
+Graphique du volume martelé par équipe
+
+---
+```{r conditional_block5, eval = col_qualidia & dia1, message=FALSE, warning=FALSE, echo = FALSE}
+lst3 <- na.omit(lst3[!lst3$mart=="NA",])
+recette <- left_join(lst3,tab_prix,c("qualite" = "quali"))
+recette <- recette[!recette$dia2==0,]
+dia_10a <-  recette$dia2 + ((recette$dia2 - recette$dia1)/input$duree*10)
+recette <- cbind(recette, dia_10a )
+
+recette_10a <-data.frame(prix = recette$prix_quali*recette$volu, perrotte(dia_10a,input$tarif)*recette$prix_quali, nom = recette$nom) %>% reshape2::melt()
+
+ggplot(recette_10a,aes(x = nom, y = value, fill = variable )) + geom_col(position = "dodge",width = 0.5) + ggtitle("Recettes") + labs(y = "", x = "Equipe") + labs(fill = "Prix (€)") + scale_fill_discrete(labels = c("Prix", "Prix à 10 ans"))
+```
+
+Graphique des recettes
+
+---
+```{r conditional_block3, eval = col_dmh, echo = FALSE, error=TRUE, message=FALSE}
+lst3 <- datagpkg()
+dmh.M <- na.omit(lst3[!lst3$mart=="NA",])
+dmh.NM <- lst3[is.na(lst3$mart=="NA"),]
+dmhneg <- dmh.M %>% group_by(nom) %>% summarise(dmh = sum(-dmh)) %>% mutate(Etat="Retiré")
+dmhpos <- dmh.NM %>% group_by(nom) %>% summarise(dmh = sum(dmh))%>% mutate(Etat="Préservé")
+
+DMH <- bind_rows(as_tibble(dmhpos),as_tibble(dmhneg))
+
+ggplot(DMH, aes(x=nom, y=dmh, fill=Etat)) + geom_bar(stat='identity', position='dodge') + xlab("Equipe")
+
+```
+
+Graphique des prélèvements de DMH
+
+---
+```{r conditional_block, eval = houp_loaded, echo = FALSE, message=FALSE}
+houp <- sfhoup()
+lst3 <- na.omit(lst3[!lst3$mart=="NA",])
+houp1 <- left_join(lst3,houp, by = c("num"="num")) %>% st_as_sf()
+
+ggplot() + geom_sf(data = houp1, aes(color = mart)) + labs(fill = "Martelage") + facet_wrap(~nom) + theme(axis.text.x=element_blank(),axis.text.y=element_blank()) +
+  ggtitle("Houppiers martelés")
+
+```
+
+
+```{r conditional_block2, eval = parc_loaded, error=FALSE, message=FALSE, echo=FALSE}
+houp <- sfhoup()
+parc <- sfparcel()
+lst4 <- datagpkg()
+
+surface.houp <- st_area(st_union(houp))
+surface.parcel <- st_area(st_union(parc))
+
+houp2 <- left_join(lst4,houp, by = c("num"="num"))
+area <- subset(houp2,is.na(houp2$mart)) %>% group_by(nom) %>%  summarize(geometry = st_union(geometry, by_feature = F)) %>% st_as_sf %>% st_area
+tabarea <- data.frame(cbind(Equipe = levels(as.factor(houp1$nom)),surface_apres_coupe = area, taux_de_prelevement =100 - as.numeric(area*100/st_area(st_union(houp))), trouee_pourcentage = round((surface.parcel-area)*100/surface.parcel,2)) )
+
+tabarea[,'taux_de_prelevement'] <- round(as.numeric(as.character(tabarea[,'taux_de_prelevement'])),2)
+tabarea[,'surface_apres_coupe'] <- round(as.numeric(as.character(tabarea[,'surface_apres_coupe'])),2)
+flextable::regulartable(tabarea) %>% flextable::autofit()
+paste0("Surface occupée par les houppiers avant coupe :", round(surface.houp,2),"m²")
+```
+
