@@ -103,7 +103,7 @@ mod_result_server <- function(id, r){
       content = function(file2) {
         showModal(modalDialog("Chargement", footer=NULL, easyClose = TRUE, fade = TRUE))
         
-        file.copy(rmarkdown::render(knit("R/nontitre.Rmd")),to = file2)
+        file.copy(rmarkdown::render(knit("reportsolo.Rmd")),to = file2)
         
         on.exit(removeModal())
       },
@@ -117,7 +117,7 @@ mod_result_server <- function(id, r){
       },
       content = function(file3) {
         
-        file.copy(rmarkdown::render(knit("R/listing.Rmd")),to = file3)
+        file.copy(rmarkdown::render(knit("listing.Rmd")),to = file3)
       },
     )
     
@@ -154,7 +154,7 @@ mod_result_server <- function(id, r){
       content = function(file){
         showModal(modalDialog("Chargement", footer=NULL, easyClose = TRUE, fade = TRUE))
         report_path <- tempfile(fileext = ".Rmd")
-        file.copy("R/report.Rmd", report_path,  overwrite = TRUE)
+        file.copy("report.Rmd", report_path,  overwrite = TRUE)
         
         
         rmarkdown::render(report_path,

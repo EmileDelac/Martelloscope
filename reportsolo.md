@@ -9,7 +9,7 @@ output: html_document
 
 
 
-**Participant : Martinet**
+**Participant : Verdier**
 
 ![](figure/comparaison-1.png)
 
@@ -50,10 +50,10 @@ Coefficient K : voir plus bas
   </tr>
   <tr>
    <td style="text-align:left;"> EPC </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> FRE </td>
@@ -64,21 +64,21 @@ Coefficient K : voir plus bas
   </tr>
   <tr>
    <td style="text-align:left;"> HET </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 9 </td>
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> S.P </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 5 </td>
    <td style="text-align:right;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> SOR </td>
-   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 0 </td>
@@ -91,7 +91,7 @@ Tiges martelées
 ---
 
 
-__Coefficient K : 1.0130039__
+__Coefficient K : 1.0261967__
 
 K = ve/va où ve est le volume de l'arbre moyen enlevé à l'éclaircie et va est le volume de l'arbre moyen avant éclaircie.
 
@@ -103,7 +103,7 @@ si 0,7 < K < 1, de « mixte »
 
 
 
-__Nombre de tiges martelées : 39__
+__Nombre de tiges martelées : 90__
 
 ---
 
@@ -140,7 +140,8 @@ Graphique du prélèvement en surface terrière par essence
 Le trait orange indique l'accroissement en m².ha annuel  
 Le trait rouge indique l'accroissement en m².ha sur la 'Durée de rotation (années)'
 
-Une essence est-elle plus souvent martelée qu'une autre ? à relativiser selon la proportion de l'espèce dans le peuplement
+Une essence est-elle plus souvent martelée qu'une autre ? à relativiser selon la proportion de l'espèce dans le peuplement  
+N'apparaissent que les essences comportant au moins 10 tiges.
 
 
 ---
@@ -174,7 +175,7 @@ Graphique de la surface terrière selon les classes de diamètres avant et aprè
 
 
 
-__Somme des prix des arbres martelés = 1980 €__
+__Somme des prix des arbres martelés = 4570 €__
 
 ---
 

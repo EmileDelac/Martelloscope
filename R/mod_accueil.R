@@ -68,7 +68,7 @@ mod_accueil_server <- function(id, r){
       dat
     })
     observeEvent(input$success, {
-      shinyalert::shinyalert(
+      shinyalert:::shinyalert(
         title = "dia1 & dia2",
         text = "'dia2' doit correspondre au dernier diam\u00e8tre mesur\u00e9 ;
         'dia1' correspond au diam\u00e8tre mesur\u00e9 il y a 'n' ann\u00e9es avec n = Dur\u00e9e de rotation (onglet R\u00e9sultats)

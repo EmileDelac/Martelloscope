@@ -42,21 +42,21 @@ mod_ressources_server <- function(id, r){
     ns <- session$ns
     
     output$conserv <- renderImage({
-      filename <- normalizePath(file.path('inst/app/www/pictures/conserv.png'))
+      filename <- normalizePath(file.path('app/www/pictures/conserv.png'))
       list(src = filename,
            width = 651,
            height = 400)
     }, deleteFile = FALSE)
     
     output$enlev <- renderImage({
-      filename <- normalizePath(file.path('inst/app/www/pictures/enlev.png'))
+      filename <- normalizePath(file.path('app/www/pictures/enlev.png'))
       list(src = filename,
            width = 651,
            height = 400)
     }, deleteFile = FALSE)
     
     output$scheme <- renderImage({
-      filename <- normalizePath(file.path('inst/app/www/pictures/scheme.jpg'))
+      filename <- normalizePath(file.path('app/www/pictures/scheme.jpg'))
       list(src = filename,
            width = 1050,
            height = 300)

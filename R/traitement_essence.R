@@ -4,7 +4,7 @@
 #' @param duree duree de rotation
 #' @param surface surface de la parcelle
 #'
-#' @return table des accroissement et des passage a la futaie par essence
+#' @return table des accroissement et des passage a la futaie par essence (accroissement annuel / passage à la futaie sur la duree de rotation)
 #' @export
 #' @importFrom dplyr mutate summarise group_by left_join
 #' 

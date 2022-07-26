@@ -21,7 +21,7 @@ mod_production_ui <- function(id){
         hr(),
         numericInput(inputId = ns("surface"), value = 1, label = "Surface en hectare", step = 0.1),
         numericInput(inputId = ns("duree"), value = 5, label = "Dur\u00e9e de rotation", step = 1),
-        numericInput(inputId = ns("tarif"), value = 10, label = "Tarif Algan n° :", step = 1),
+        numericInput(inputId = ns("tarif"), value = 10, label = "Tarif Algan n\u00b0 :", step = 1),
 
       ),
       mainPanel(
@@ -91,9 +91,9 @@ mod_production_server <- function(id, r){
       N <- length(df$dia2)/input$surface
       G <- sum(dia2cat5cm(df$dia2)$G)/input$surface
       V <- sum(perrotte(df$dia2/100,input$tarif))/input$surface
-      Nt <- c("N :", N, "tiges/ha")
-      Gt <- c("G :", round(G), "m²/ha")
-      Vt <- c("V :", round(V), "m^3/ha")
+      Nt <- c("N :", N, "tiges\u002Fha")
+      Gt <- c("G :", round(G), "m\u00b2\u002Fha")
+      Vt <- c("V :", round(V), "m\u00b3\u002Fha")
       tabt <- data.frame(rbind(Nt,Gt,Vt))
       colnames(tabt) <- c("","","")
       tabt

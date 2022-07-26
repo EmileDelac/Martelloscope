@@ -1,10 +1,12 @@
 #' Distance moyenne ponderee
 #'
-#' @param geom Geometries des arbres = longitude et latitudes
+#' @param geometry Geometries des arbres = longitude et latitudes
 #' 
 #' @param diam vecteur des diametres des arbres en mètre
 #' 
-#' @param tarif numéro dutarif algan
+#' @param dist distance moyenne etre les arbres
+#'
+#' @param tarif numero du tarif algan
 #'
 #' @return vecteurs distance moyenne des arbres ponderee par leur volume
 #' @export 

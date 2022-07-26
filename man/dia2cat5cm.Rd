@@ -2,7 +2,7 @@
 % Please edit documentation in R/dia2cat5cm.R
 \name{dia2cat5cm}
 \alias{dia2cat5cm}
-\title{Title diamètre vers cat\u00e9gories de diamètre de 5 en 5}
+\title{Title diamètre vers categories de diamètre de 5 en 5}
 \usage{
 dia2cat5cm(diam)
 }
@@ -10,8 +10,8 @@ dia2cat5cm(diam)
 \item{diam}{vecteur de diametre}
 }
 \value{
-tableau de la surface terrière selon cat\u00e9gories de diamètre 5cm en 5cm
+tableau de la surface terrière selon categories de diamètre 5cm en 5cm
 }
 \description{
-Title diamètre vers cat\u00e9gories de diamètre de 5 en 5
+Title diamètre vers categories de diamètre de 5 en 5
 }

@@ -16,6 +16,8 @@
 ## Dependencies ----
 ## Add one line by package you want to add as dependency
 usethis::use_package( "thinkr" )
+usethis::use_package( "purrr" )
+usethis::use_package( "shinyalert" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/

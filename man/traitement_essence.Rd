@@ -14,7 +14,7 @@ traitement_essence(tab, duree, surface)
 \item{surface}{surface de la parcelle}
 }
 \value{
-table des accroissement et des passage a la futaie par essence
+table des accroissement et des passage a la futaie par essence (accroissement annuel / passage à la futaie sur la duree de rotation)
 }
 \description{
 traitement essence

@@ -7,11 +7,13 @@
 dist.pond(geometry, diam, tarif)
 }
 \arguments{
+\item{geometry}{Geometries des arbres = longitude et latitudes}
+
 \item{diam}{vecteur des diametres des arbres en mètre}
 
-\item{tarif}{numéro dutarif algan}
+\item{tarif}{numero du tarif algan}
 
-\item{geom}{Geometries des arbres = longitude et latitudes}
+\item{dist}{distance moyenne etre les arbres}
 }
 \value{
 vecteurs distance moyenne des arbres ponderee par leur volume

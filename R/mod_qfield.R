@@ -23,7 +23,7 @@ mod_qfield_ui <- function(id){
         plotOutput(ns("mymap")),
         hr(),
         HTML('<p>Les participants pourront alors ouvrir le fichier .gpkg via QField <br>
-                                 Ouvrir un fichier local > Stockage interne > Download</p>')
+                                 Ouvrir un fichier local \u003E Stockage interne \u003E Download</p>')
       )
     ),
   )
@@ -52,7 +52,7 @@ mod_qfield_server <- function(id, r){
                     mutate(mart=NA)
                   df$mart <- as.factor(df$mart)
                   
-                  style_gpkg <- sf::st_read("inst/Iris.gpkg", layer = "layer_styles")
+                  style_gpkg <- sf::st_read("Iris.gpkg", layer = "layer_styles")
                   style_gpkg$f_table_name <- as.factor("pts")
                   
                   df2 <- sf::st_write(obj = sf::st_as_sf(df, coords = c("X","Y"), crs = 2154), 
@@ -88,7 +88,7 @@ mod_qfield_server <- function(id, r){
       )
 
       ggplot(data = df, aes(x = X, y = Y, color = ess, size = dia2))  + geom_point() +
-        labs(x = "X", y = "Y", fill = "Essence") + scale_color_discrete(name = "Essence") + scale_size_continuous("Diamètre") +
+        labs(x = "X", y = "Y", fill = "Essence") + scale_color_discrete(name = "Essence") + scale_size_continuous("Diametre") +
         theme(axis.text.x=element_blank(),
               axis.text.y=element_blank(),)
     },bg ='#B1D5B3')

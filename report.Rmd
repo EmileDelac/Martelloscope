@@ -69,8 +69,8 @@ On pourra aborder ici la question du choix de l’essence ou des essences object
 ```{r echo = FALSE , error=TRUE, message=FALSE}
 separated_coord <- lst3 %>%
     mutate(mart = !is.na(lst3$mart)) %>% 
-   mutate(lat = unlist(purrr::map(lst3$geom,1)),
-         long = unlist(purrr::map(lst3$geom,2)))
+   mutate(lat = unlist(purrr:::map(lst3$geom,1)),
+         long = unlist(purrr:::map(lst3$geom,2)))
 ggplot(separated_coord, aes(x = long, y = lat, color = ess, shape = mart))  + facet_wrap(~nom) + geom_point(size = 1.5) +
   theme(axis.text.x=element_blank(),axis.text.y=element_blank()) +
   ggtitle("R\u00e9partition des tiges martel\u00e9es") + labs(x = "X", y = "Y", fill = "Essence", alpha ="Raison") + scale_color_discrete(name = "Essence")  + scale_shape_manual(name = "Martelé", values=c(16, 13))
@@ -94,9 +94,13 @@ On pourra amener les participants à réfléchir au type de martelage effectué.
 
 ```{r echo = FALSE,eval= dia1, error = FALSE, message = FALSE, warning = FALSE}
 N <- abs(nrow(lst3)/nlevels(lst3$nom))
-pfacc <-  traitement_essence(lst3[1:N,],surface = input$surface, duree = duree)
 
-lst4 <- na.omit(lst3[!lst3$mart=="NA",])
+tt <- table(lst3$ess) 
+lst3_ess <- subset(lst3, ess %in% names(tt[tt > 9]))
+
+pfacc <-  traitement_essence(lst3_ess[1:N,],surface = input$surface, duree = duree)
+
+lst4 <- na.omit(lst3_ess[!lst3_ess$mart=="NA",])
 lst5 <- mutate(lst4,accprel = (as.numeric(lst4$dia2)/100)^2*pi/4)
 
 ggplot(data = lst5,aes(x = nom, y = accprel)) +  geom_bar(stat = "identity", fill = '#66CDAA') + facet_wrap(~ess) +
@@ -106,10 +110,16 @@ ggplot(data = lst5,aes(x = nom, y = accprel)) +  geom_bar(stat = "identity", fil
   labs(y = "G (m²)", x = "Equipe") + theme( axis.text.x = element_text(angle = 90))
 ```
 
-Le trait orange indique l'accroissement en m².ha annuel  
-Le trait rouge indique l'accroissement en m².ha sur `r duree` ans
+`r if(dia1 == TRUE){" 
+Graphique du prélèvement en surface terrière par essence
 
-Une essence est-elle plus souvent martelée qu'une autre ? à relativiser selon la proportion de l'espèce dans le peuplement
+Le trait orange indique l'accroissement en m².ha annuel  
+Le trait rouge indique l'accroissement en m².ha sur la 'Durée de rotation (années)'
+
+Une essence est-elle plus souvent martelée qu'une autre ? à relativiser selon la proportion de l'espèce dans le peuplement  
+N'apparaissent que les essences comportant au moins 10 tiges.
+"}`
+
 
 ---
 ```{r echo = FALSE, error=FALSE, message=FALSE, warning=FALSE}
@@ -129,15 +139,20 @@ Une essence est-elle plus souvent martelée selon son diamètre ?
 ---
 ```{r echo = FALSE, eval= dia1, error = FALSE, message = FALSE, warning = FALSE}
 liste3 <- datagpkg()
+liste3 <- liste3[!(is.na(liste3$dia2) | liste3$dia2 == 0),] 
 N <- abs(nrow(liste3)/nlevels(liste3$nom))
-pfacc <-  traitement_essence(liste3[1:N,], surface = input$surface, duree = input$duree)
-liste3 <- bind_rows(liste3) %>% as.data.frame()
-liste3 <- na.omit(liste3[!liste3$mart=="NA",])
-liste3 <- mutate(liste3, acc = (as.numeric(liste3$dia2)/100)^2*pi/4)
-liste3 <- liste3 %>% group_by(nom,ess) %>% summarise(Nprel = n(), accprel = sum(acc))
-liste3 <- as.data.frame(liste3)
-liste4 <- do.call(expand.grid, lapply(liste3[c("ess","nom")], levels))
-liste5 <- merge(liste3, liste4, all.y=TRUE)
+tt <- table(liste3$ess) 
+liste3_ess <- subset(liste3, ess %in% names(tt[tt > 9]))
+
+pfacc <-  traitement_essence(liste3_ess[1:N,], surface = input$surface, duree = input$duree)
+pfacc$acc <- duree*(pfacc$acc)
+liste3_ess <- bind_rows(liste3_ess) %>% as.data.frame()
+liste3_ess <- na.omit(liste3_ess[!liste3_ess$mart=="NA",])
+liste3_ess <- mutate(liste3_ess, acc = (as.numeric(liste3_ess$dia2)/100)^2*pi/4)
+liste3_ess <- liste3_ess %>% group_by(nom,ess) %>% summarise(Nprel = n(), accprel = sum(acc))
+liste3_ess <- as.data.frame(liste3_ess)
+liste4 <- do.call(expand.grid, lapply(liste3_ess[c("ess","nom")], levels))
+liste5 <- merge(liste3_ess, liste4, all.y=TRUE)
 liste5[is.na(liste5)] <- 0
 tabl <- dplyr::left_join(liste5,pfacc) %>% mutate(propf = Nprel*100/pf) %>% mutate(propacc = accprel*100/acc)
 tabl[tabl == Inf] <- 0

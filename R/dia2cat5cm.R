@@ -1,8 +1,8 @@
-#' Title diamètre vers cat\u00e9gories de diamètre de 5 en 5
+#' Title diamètre vers categories de diamètre de 5 en 5
 #'
 #' @param diam vecteur de diametre
 #'
-#' @return tableau de la surface terrière selon cat\u00e9gories de diamètre 5cm en 5cm
+#' @return tableau de la surface terrière selon categories de diamètre 5cm en 5cm
 #' @export 
 #' @import dplyr
 #' @import magrittr

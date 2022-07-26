@@ -27,14 +27,7 @@ app_ui <- function(request) {
                                         tabPanel("Ressources", icon = icon("book",verify_fa = FALSE),
                                                  mod_ressources_ui("ressources_ui_1")),
                                         
-                                        tabPanel("Aide", icon = icon("question",verify_fa = FALSE),
-                                                 
-                                                 h4("Messages d'erreur :"),
-                                                 tags$code(class = "Error", "Error in gsub: input string 1 is invalid in this locale"),
-                                                 tags$p(class = "Errortext", "=> Retirer les Caractères Sp\u00e9ciaux dans le CSV"),
-                                                 br(),
-                                                 tags$p("Le fichier .shp des houppiers doit contenir une colonne 'num' correspondant à la colonne 'num' du fichier .csv"), 
-                                        ),
+                                
       )
       )
     )

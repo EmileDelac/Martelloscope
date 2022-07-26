@@ -194,8 +194,11 @@ On pourra aborder ici la question du choix de l’essence ou des essences object
 
 ```{r echo = FALSE, eval= dia1, error = TRUE, message = FALSE, warning = FALSE}
 
-pfacc <-  traitement_essence(as_tibble(lst4), surface, duree)
-lst5 <- na.omit(lst4[!lst4$mart=="NA",])
+tt <- table(lst4$ess) 
+lst4_ess <- subset(lst4, ess %in% names(tt[tt > 9]))
+
+pfacc <-  traitement_essence(as_tibble(lst4_ess), surface, duree)
+lst5 <- na.omit(lst4_ess[!lst4_ess$mart=="NA",])
 lst6 <- mutate(lst5,accprel = (as.numeric(lst5$dia2)/100)^2*pi/4)
 
 ggplot(data = lst6,aes(x = nom, y = accprel)) +  geom_bar(stat = "identity", width = 0.5, fill = '#66CDAA') + facet_wrap(~ess) +
@@ -209,9 +212,10 @@ ggplot(data = lst6,aes(x = nom, y = accprel)) +  geom_bar(stat = "identity", wid
 Graphique du prélèvement en surface terrière par essence
 
 Le trait orange indique l'accroissement en m².ha annuel  
-Le trait rouge indique l'accroissement en m².ha sur `r duree` ans
+Le trait rouge indique l'accroissement en m².ha sur la 'Durée de rotation (années)'
 
-Une essence est-elle plus souvent martelée qu'une autre ? à relativiser selon la proportion de l'espèce dans le peuplement
+Une essence est-elle plus souvent martelée qu'une autre ? à relativiser selon la proportion de l'espèce dans le peuplement  
+N'apparaissent que les essences comportant au moins 10 tiges.
 "}`
 
 ---
@@ -234,9 +238,12 @@ On pourra amener les participants à réfléchir au type de martelage effectué.
 ---
 
 ```{r echo = FALSE, eval= dia1, error=FALSE, message=FALSE, warning=FALSE}
+tt <- table(lst4$ess) 
+lst4_ess <- subset(lst4, ess %in% names(tt[tt > 9]))
 
-pfacc <-  traitement_essence(as_tibble(lst4), surface, duree)
-lst5 <- na.omit(lst4[!lst4$mart=="NA",])
+pfacc <-  traitement_essence(as_tibble(lst4_ess), surface, duree)
+pfacc$acc <- duree*surface*(pfacc$acc)
+lst5 <- na.omit(lst4_ess[!lst4_ess$mart=="NA",])
 lst5 <- mutate(lst5, acc = (as.numeric(lst5$dia2)/100)^2*pi/4)
 lst6 <- lst5 %>% group_by(nom,ess) %>% summarise(Nprel = n(), accprel = sum(acc))
 lst6 <- as.data.frame(lst6)
