@@ -15,10 +15,11 @@ knitr::opts_chunk$set(
 
 # marteloscope5
 
+L'application marteloscope5 aide à la mise en place et au traitement de données issues de marteloscopes. 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of marteloscope5 is to ...
+
 
 ## Installation
 
@@ -28,27 +29,14 @@ You can install the development version of marteloscope5 like so:
 # FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+L’application est destinée aux techniciens forestiers et aux animateurs sylvicoles souhaitant mettre en place une activité de Marteloscope.
+A partir d'un fichier contenant la localisation, l'essence et le diamètres des arbres ; le module 'Qfield' produit un fichier .gpkg modifiable sur téléphone via l'application Qfield qui permettra d'effectuer un martelage. 
+Une fois le martelage effectué l'application via l'onglet Résultat va permettre d'analyser et de comparer les résultats des différents martelages effectués. il suffira de charger les fichiers .gpkg sur l'application.
 
-```{r example}
-library(marteloscope5)
-## basic example code
-```
+## Support
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+L'onglet Ressources fourni des informations sur commment choisir un arbre à marteler; et comment utiliser l'application (fichier Notice Application)
 
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+delacroix.emile@gmail.com

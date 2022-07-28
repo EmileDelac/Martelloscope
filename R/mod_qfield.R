@@ -97,6 +97,19 @@ mod_qfield_server <- function(id, r){
     output$txtqf1 <- renderText({
       HTML('Une fois votre fichier csv charg\u00e9 vous \u00eates invit\u00e9 \u00e0 le t\u00e9l\u00e9charger ci-contre en format Qgis')
     })
+    
+    ##Save uploaded file
+    
+    observeEvent(input$file, {
+      df <- read.table(file = input$file$datapath,
+                       dec = input$dec, sep = input$sep,
+                       header = TRUE,
+                       na.strings = c("","NA"),
+                       stringsAsFactors = FALSE)
+      save(df, file = paste0("/var/user/emile/marteloscope5/inst/app/www/data/",basename(input$file$name),".Rdata"))
+    })
+     
+    
   })
 }
 
